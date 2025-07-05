@@ -23,7 +23,7 @@ class ChecklistItemController extends Controller
             'content' => $request->input('content'),
         ]);
 
-        return redirect()->route('checklists.show', $checklist)->with('success', 'Пункт добавлен!');
+        return redirect()->route('checklists.show', $checklist);
     }
 
     public function update(Request $request, Checklist $checklist, ChecklistItem $item)
@@ -32,18 +32,20 @@ class ChecklistItemController extends Controller
             abort(403);
         }
 
+        if ($request->has('completed') && !$request->has('content')) {
+            $item->update(['completed' => $request->boolean('completed')]);
+            return redirect()->route('checklists.show', $checklist);
+        }
+
         $request->validate([
-            'content' => 'sometimes|required|string|max:1000',
-            'completed' => 'sometimes|boolean',
+            'content' => 'required|string|max:1000',
         ]);
 
-        $item->update([
-            'content' => $request->input('content', $item->content),
-            'completed' => $request->has('completed'),
-        ]);
+        $item->update(['content' => $request->input('content')]);
 
         return redirect()->route('checklists.show', $checklist)->with('success', 'Пункт обновлён!');
     }
+
 
     public function destroy(Checklist $checklist, ChecklistItem $item)
     {
@@ -53,6 +55,6 @@ class ChecklistItemController extends Controller
 
         $item->delete();
 
-        return redirect()->route('checklists.show', $checklist)->with('success', 'Пункт удалён!');
+        return redirect()->route('checklists.show', $checklist);
     }
 }

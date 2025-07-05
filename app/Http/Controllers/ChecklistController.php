@@ -21,6 +21,12 @@ class ChecklistController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
+
+        if ($user->checklists()->count() >= $user->checkListLimit()) {
+            return redirect()->route('checklists.index')->with('error', 'You heave reached the limit!');
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
         ]);

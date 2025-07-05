@@ -45,4 +45,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isBlocked(): bool
+    {
+        return (bool) $this->blocked;
+    }
+
+    public function checklists()
+    {
+        return $this->hasMany(Checklist::class);
+    }
+
+    public function checkListLimit(): int
+    {
+        return $this->isAdmin() ? 100 : 5;
+    }
 }

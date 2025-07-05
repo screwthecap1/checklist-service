@@ -14,35 +14,39 @@
         <ul class="list-group my-4">
             @forelse ($checklist->items as $item)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{-- Форма для изменения статуса чекбокса --}}
                     <form action="{{ route('checklists.items.update', [$checklist, $item]) }}" method="POST" class="d-flex align-items-center w-100">
                         @csrf
                         @method('PUT')
                         <div class="form-check flex-grow-1">
-                            <input type="checkbox" name="completed" class="form-check-input" id="item-{{ $item->id }}" onchange="this.form.submit()" {{ $item->completed ? 'checked' : '' }}>
-                            <label class="form-check-label {{ $item->completed ? 'text-decoration-line-through' : '' }}" for="item-{{ $item->id }}">
+                            <input type="hidden" name="completed" value="0">
+                            <input type="checkbox" name="completed" class="form-check-input" id="item-{{ $item->id }}"
+                                   onchange="this.form.submit()" value="1" {{ $item->completed ? 'checked' : '' }}>
+                            <label class="form-check-label {{ $item->completed ? 'text-decoration-line-through' : '' }}"
+                                   for="item-{{ $item->id }}">
                                 {{ $item->content }}
                             </label>
                         </div>
                     </form>
-                    <div class="ms-3">
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('edit-item-{{ $item->id }}').submit();" class="btn btn-sm btn-primary">Edit</a>
-                        <form action="{{ route('checklists.items.destroy', [$checklist, $item]) }}" method="POST" class="d-inline" id="delete-item-{{ $item->id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </div>
+
+                    {{-- Кнопка для удаления пункта --}}
+                    <form action="{{ route('checklists.items.destroy', [$checklist, $item]) }}" method="POST" class="ms-2">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
                 </li>
             @empty
                 <li class="list-group-item text-muted">No items yet.</li>
             @endforelse
         </ul>
 
-        {{-- Добавление нового пункта --}}
+        {{-- Форма для добавления нового пункта --}}
         <form action="{{ route('checklists.items.store', $checklist) }}" method="POST" class="mt-4">
             @csrf
             <div class="input-group">
-                <input type="text" name="content" class="form-control @error('content') is-invalid @enderror" placeholder="New item..." value="{{ old('content') }}">
+                <input type="text" name="content" class="form-control @error('content') is-invalid @enderror"
+                       placeholder="New item..." value="{{ old('content') }}">
                 <button class="btn btn-success" type="submit">Add</button>
             </div>
             @error('content')
@@ -50,7 +54,7 @@
             @enderror
         </form>
 
-        {{-- Ссылка вернуться к списку чек-листов --}}
+        {{-- Ссылка для возврата к списку чек-листов --}}
         <div class="mt-4">
             <a href="{{ route('checklists.index') }}" class="btn btn-secondary">Back to Checklists</a>
         </div>

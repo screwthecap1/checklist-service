@@ -10,6 +10,12 @@
             </div>
         @endif
 
+        @if (session('error'))
+            <div class="alert alert-danger mt-2">
+                {{ session('error') }}
+            </div>
+        @endif
+
         {{-- Кнопка для создания нового чек-листа --}}
         <div class="mb-4">
             <a href="{{ route('checklists.create') }}" class="btn btn-primary">Create New Checklist</a>
