@@ -134,5 +134,5 @@
 
 ### Получить выполненные/невыполненные пункты чек-листа (default=false)
 **GET** `/api/checklists/{checklist}/items?completed=true`
-## Или
+Или
 **GET** `/api/checklists/{checklist}/items?completed=false`
