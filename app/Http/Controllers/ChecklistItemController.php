@@ -46,7 +46,6 @@ class ChecklistItemController extends Controller
         return redirect()->route('checklists.show', $checklist)->with('success', 'Пункт обновлён!');
     }
 
-
     public function destroy(Checklist $checklist, ChecklistItem $item)
     {
         if ($checklist->user_id !== Auth::id() || $item->checklist_id !== $checklist->id) {
