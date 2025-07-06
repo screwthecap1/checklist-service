@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Регистрация
     public function register(Request $request)
     {
         $request->validate([
@@ -24,13 +23,11 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // создаём API токен
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json(['token' => $token], 201);
     }
 
-    // Логин
     public function login(Request $request)
     {
         $request->validate([

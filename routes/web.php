@@ -16,7 +16,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['auth'])->group(function () {
     Route::resource('checklists', ChecklistController::class);
 
-    // Добавляем маршруты для пунктов чек-листов:
     Route::post('checklists/{checklist}/items', [ChecklistItemController::class, 'store'])->name('checklists.items.store');
     Route::put('checklists/{checklist}/items/{item}', [ChecklistItemController::class, 'update'])->name('checklists.items.update');
     Route::delete('checklists/{checklist}/items/{item}', [ChecklistItemController::class, 'destroy'])->name('checklists.items.destroy');
