@@ -16,13 +16,18 @@
             </div>
         @endif
 
-        {{-- Кнопка для создания нового чек-листа --}}
         <div class="mb-4">
             <a href="{{ route('checklists.create') }}" class="btn btn-primary">Create New Checklist</a>
         </div>
 
-        {{-- Список чек-листов --}}
-        @if ($checklists->isEmpty())
+        @if (auth()->user() && auth()->user()->isAdmin())
+            <div class="mb-4">
+                <a href="{{ route('admin.users.index') }}" class="btn btn-warning">Admin Panel</a>
+            </div>
+        @endif
+
+
+    @if ($checklists->isEmpty())
             <div class="alert alert-info">
                 You don't have any checklists yet.
             </div>

@@ -17,7 +17,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Blocked</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -64,7 +64,7 @@
         </table>
 
         <div class="mt-4">
-            <a href="{{ route('home') }}" class="btn btn-secondary">Back to Home</a>
+            <a href="{{ route('checklists.index') }}" class="btn btn-secondary">Back to Tasks</a>
         </div>
     </div>
 @endsection
